@@ -36,6 +36,6 @@ class WaterSimulation():
 sim = WaterSimulation(PID.PID(0.6, 0.0, 0.1, 20, 0.1))
 sim.test_and_display(100)
 
-plt.savefig("test.png")
+plt.savefig("pid_test.png")
 # this will be made better
 # or maybe not, ha
