@@ -34,10 +34,10 @@ is invalid, the motor number will be set to 0, and as the motor numbers begin at
 
 /*
 TODO
-- out of bounds speed fix, not just set to 0
+- out of bounds speed fix, not just set to 0 (not sure how to do this but its prob possible)
 - config about starting pin
 - more responses/data
-- document all responses
+- document all responses better
 */
 
 
@@ -51,7 +51,7 @@ TODO
 #define SEND_RESPONSE 1
 // 0 no response, 1 end status response, 2 full data
 
-
+// changing these variables (especially INVALID_MOTOR_RESPONSE) may cause issues, use with caution
 #define INVALID_MOTOR_RESPONSE 0
 #define OUT_OF_BOUNDS_SPEED_RESPONSE 1
 #define SUCCESS_RESPONSE 2

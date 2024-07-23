@@ -44,6 +44,7 @@ class DifferentialPID:
         # and two spinning at 15 in the other direction; it should be about equivalent
         # to just spinning at 10
 
-        return (overcorrected, correction)
+        return (overcorrected, -correction)
+        # negative to turn in other direction
         
     

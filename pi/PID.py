@@ -14,10 +14,19 @@ import time
 # Kp = 0.6
 # Ki = 0.0
 # Kd = 0.1
-# these will probably need to be retuned in the future
+# these will probably (almost definitely) need to be retuned in the future
+
 
 class PID:
     def __init__(self, proportional, integral, derivative, wanted, interval=None):
+        '''
+        The first three paramaters represent the weight of their respect part of the PID;
+        Kp, Ki, and Kd. Wanted is the value the PID will attempt to reach, this cannot be
+        changed without creating a new PID object. Interval is optional, if unset the PID
+        will use real time, which is good in case of potential lag. If set, it will assume
+        every call is `interval` seconds apart. It's good for testing, but in a real
+        scenario use real time.
+        '''
         # the first three params represent the weight of their respective part of the PID
         # interval is optional, if unset the PID time will be based on actual time, which is 
         # good in case of potential lag. if set, it will assume every call is `interval`
@@ -32,7 +41,7 @@ class PID:
         self.interval = interval
 
         self.integral = 0
-        # integral represents the total error; the integral
+        # integral represents the total error
 
         self.prev = 0
         # prev represents the previous error

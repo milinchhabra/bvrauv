@@ -38,3 +38,4 @@ sim.test_and_display(100)
 
 plt.savefig("test.png")
 # this will be made better
+# or maybe not, ha
