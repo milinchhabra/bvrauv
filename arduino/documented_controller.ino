@@ -130,7 +130,7 @@ void loop() {
   int motor = atoi(mtr); // parse int, otherwise 0
 
   if(SEND_RESPONSE == 2) {
-    Serial.print("Parsed data: ")
+    Serial.print("Parsed data: ");
     Serial.print(speed);
     Serial.print(", ");
     Serial.println(motor);
