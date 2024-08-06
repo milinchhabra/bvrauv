@@ -5,7 +5,7 @@ import PID
 # this isn't a replacement for water testing! you still need test in an actual scenario
 # to tune the paramaters, this is pretty minor
 
-class WaterSimulation():
+class WaterSimulation:
     def __init__(self, pid):
         self.pid = pid
         self.vel = 0

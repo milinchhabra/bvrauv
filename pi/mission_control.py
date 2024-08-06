@@ -1,61 +1,33 @@
-import abstract_sub
+from sub_layers.abstract_sub import AUV
+from sub_layers.pin_control import PinControl
+from sub_layers.user_sub import UserSub
 import time
-
-def get_forward_velocity():
-    # read from the imu
-    # TODO finish this!
-    return 1
-
-def get_depth():
-    # read from the depth sensor
-    # TODO finish this!
-    return 1
-
-def get_angle():
-    # read from the imu (i think thats what has angle)
-    # TODO finish this!
-    return 1
-
-
-def set_motor(speed, index):
-    '''
-    Send to the Arduino a command to turn motor at index `index` at speed `speed`
-    '''
-    # TODO finish this!
-    pass
-
-def set_motors(motors):
-    '''
-    Sends commands to all motors, in the format\n
-    (VFL, VFR, VBL, VBR, HFL, HFR, HBL, HBR)
-    '''
-    # TODO finish this!
-    pass
 
 
 if __name__ == '__main__':
 
-    wanted_depth = 10
-    # depending on the pid format...
+    sub = UserSub(
+        PinControl(
+            AUV(
+                wanted_depth=10,
+                wanted_angle=0,
+                motor_min=5,  # minimum motor speed
+                Dp=0.6,
+                Di=0.1,
+                Dd=0.1,
+                Rp=0.6,
+                Ri=0.0,
+                Rd=0.1
+            ),
+            motor_port='COM12',  # example port
+            depth_bus=1,  # I2C bus
+            imu_port='/dev/ttyACM0'  # another port
+        ),
+        Fp=0.5,
+        Fi=0.0,
+        Fd=0.1,
+        max_speed=0.1,
+        average_accuracy=50
+    )
 
-    wanted_angle = 0
-    # also depending on the pid format...
-
-    motor_min = 5
-    # check the motors
-
-    sub = abstract_sub.AUV(wanted_depth, wanted_angle, motor_min, 0.6, 0.0, 0.1, 0.6, 0.0, 0.1)
-    # final values are for two pid controllers; these DEFINITELY need to be retuned!
-
-
-    delay = 0.001
-    # how often to run the loop (in seconds)
-
-    while True:
-        sub.set_depth(get_depth())
-        sub.set_forward_velocity(get_forward_velocity())
-        sub.set_rotation(get_angle())
-
-        set_motors(sub.get_motors())
-
-        time.sleep(delay)
+    sub.move_time(10, 10)

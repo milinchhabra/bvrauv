@@ -1,4 +1,5 @@
 import time
+from typing import Optional
 
 # A PID controller is a piece of code which tries to bring a chaotic system to a specific
 # value; eg. bring a sub to a specific depth or angle, manuevering against the chaotic water.
@@ -18,49 +19,46 @@ import time
 
 
 class PID:
-    def __init__(self, proportional, integral, derivative, wanted, interval=None):
-        '''
-        The first three paramaters represent the weight of their respect part of the PID;
+    def __init__(self, proportional: float, integral: float, derivative: float, wanted: float, interval: Optional[float] = None):
+        """
+        The first three parameters represent the weight of their respect part of the PID;
         Kp, Ki, and Kd. Wanted is the value the PID will attempt to reach, this cannot be
         changed without creating a new PID object. Interval is optional, if unset the PID
         will use real time, which is good in case of potential lag. If set, it will assume
         every call is `interval` seconds apart. It's good for testing, but in a real
         scenario use real time.
-        '''
+        """
         # the first three params represent the weight of their respective part of the PID
         # interval is optional, if unset the PID time will be based on actual time, which is 
         # good in case of potential lag. if set, it will assume every call is `interval`
         # seconds apart. it's good for testing, but in a real scenario use timestamp
 
-        self.Kp = proportional
-        self.Ki = integral
-        self.Kd = derivative
+        self.Kp: float = proportional
+        self.Ki: float = integral
+        self.Kd: float = derivative
 
-        self.wanted = wanted
-        
-        self.interval = interval
+        self.wanted: float = wanted
 
-        self.integral = 0
+        self.interval: float = interval
+
+        self.integral: float = 0
         # integral represents the total error
 
-        self.prev = 0
+        self.prev: float = 0
         # prev represents the previous error
 
-        self.prevTime = time.time()
+        self.prevTime: float = time.time()
         # only used if interval is unset
 
+    def signal(self, current: float) -> float:
+        # return the control signal, given a current value
+        # this will update the saved data such as total error and previous error
 
+        time_diff = self.interval if self.interval is not None else time.time() - self.prevTime
+        error = self.wanted - current
+        self.integral += error
+        derivative = (error - self.prev) / time_diff
 
-    def predict(self, current):
-      # return the predicted push, given a current value
-      # this will update the saved data such as total error and previous error
-      
-
-      timeDiff = self.interval if self.interval is not None else time.time() - self.prevTime
-      error = self.wanted - current
-      self.integral += error
-      derivative = (error-self.prev)/timeDiff
-
-      self.prev = error
-      signal = (self.Kp * error) + (self.Ki * self.integral) + (self.Kd * derivative)
-      return signal
+        self.prev = error
+        signal = (self.Kp * error) + (self.Ki * self.integral) + (self.Kd * derivative)
+        return signal
