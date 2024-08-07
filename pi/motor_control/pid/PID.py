@@ -51,6 +51,9 @@ class PID:
         # only used if interval is unset
 
     def signal(self, current: float) -> float:
+        """
+        Get the control signal given the `current` value
+        """
         # return the control signal, given a current value
         # this will update the saved data such as total error and previous error
 

@@ -8,10 +8,12 @@ class VectorNavIMU:
 
     def get_angle(self) -> float:
         # TODO read angle with self.port.read()!
-        # TODO REMEMBER TO SANITIZE FIRST
+        # REMEMBER TO SANITIZE FIRST
+        self.port.read()
         return 1.0
 
     def get_forward_speed(self) -> float:
         # TODO read speed with self.port.read()!
-        # TODO REMEMBER TO SANITIZE FIRST
+        # REMEMBER TO SANITIZE FIRST
+        self.port.read()
         return 1.0

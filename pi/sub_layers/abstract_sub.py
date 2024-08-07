@@ -1,5 +1,5 @@
-from pi.PID import PID
-from pi.differential_PID import DifferentialPID
+from pi.motor_control.pid.PID import PID
+from pi.motor_control.pid.differential_PID import DifferentialPID
 from typing import Tuple, List
 # An abstract model of a sub which contains all the needed PIDs and other low-level details
 # to control the sub.
@@ -23,8 +23,6 @@ class AUV:
         # not using that currently; right now, the rotation will just be turn in theta degrees
         self.heading: float = 0
         # TODO better rotation; rotate to vector?
-
-        # TODO track motion
 
         self.depth_pid: PID = PID(Dp, Di, Dd, wanted_depth)
         self.heading_pid: DifferentialPID = DifferentialPID(PID(Rp, Ri, Rd, wanted_angle), motor_min)
@@ -62,10 +60,10 @@ class AUV:
         vertical_motors: List[float] = [self.depth_pid.signal(self.depth)] * 4
         horizontal_motors: List[float] = [self.wanted_speed] * 4
         
-        heading_motors = self.heading_pid.signal(self.depth) # get heading pid speed (x, y)
+        heading_motors = self.heading_pid.signal(self.depth)  # get heading pid speed (x, y)
 
         for i in range(4):
-            horizontal_motors[i] += heading_motors[i%2]
+            horizontal_motors[i] += heading_motors[i % 2]
             # add to diagonals
 
         return tuple(vertical_motors + horizontal_motors)

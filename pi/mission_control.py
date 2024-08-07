@@ -1,7 +1,6 @@
 from sub_layers.abstract_sub import AUV
 from sub_layers.pin_control import PinControl
 from sub_layers.user_sub import UserSub
-import time
 
 
 if __name__ == '__main__':
@@ -26,8 +25,7 @@ if __name__ == '__main__':
         Fp=0.5,
         Fi=0.0,
         Fd=0.1,
-        max_speed=0.1,
-        average_accuracy=50
+        max_stop_speed=0.1
     )
 
     sub.move_time(10, 10)

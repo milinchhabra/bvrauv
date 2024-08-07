@@ -62,7 +62,6 @@ class MotorPacket:
         return MotorPacket(sum_commands)
 
 
-# TODO the motor order shouldn't be hard-set
 def all_motors_packet(speeds: Tuple[float, ...]) -> MotorPacket:
     """
     Sends commands to all motors, in the format\n
