@@ -18,9 +18,9 @@ if __name__ == '__main__':
                 Ri=0.0,
                 Rd=0.1
             ),
-            motor_port='/dev/ttyUSB0',  # example port
+            motor_port='/dev/ttyUSB0',  #arduino port
             depth_bus=1,  # I2C bus
-            imu_port='/dev/ttyACM0'  # another port
+            imu_port='/dev/ttyACM0'  # placeholder port
         ),
         Fp=0.5,
         Fi=0.0,
