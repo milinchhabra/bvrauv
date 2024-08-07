@@ -20,7 +20,7 @@ if __name__ == '__main__':
             ),
             motor_port='/dev/ttyUSB0',  #arduino port
             depth_bus=1,  # I2C bus
-            imu_port='/dev/ttyACM0'  # placeholder port
+            imu_port='/dev/ttyUSB1'  #imu port
         ),
         Fp=0.5,
         Fi=0.0,
