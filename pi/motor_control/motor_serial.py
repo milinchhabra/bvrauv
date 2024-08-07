@@ -1,5 +1,5 @@
 from pi.port_controller import PortController
-from motor_packet import MotorPacket
+from pi.motor_control.motor_packet import MotorPacket
 
 # A wrapper class to communicate with the arduino motor controller
 

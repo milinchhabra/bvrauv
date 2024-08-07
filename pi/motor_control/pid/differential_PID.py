@@ -1,4 +1,4 @@
-import PID
+from pi.motor_control.pid.PID import PID
 from typing import Tuple
 
 # This code is to fix the issue that a lot of our motors have a minimum speed, stopping us

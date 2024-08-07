@@ -2,7 +2,7 @@ import time
 from collections import deque
 
 from pi.motor_control.pid.PID import PID
-from pin_control import PinControl
+from pi.sub_layers.pin_control import PinControl
 # A high-level wrapper class for a port control sub with pre-made methods
 
 
@@ -27,7 +27,8 @@ class UserSub:
         """Update all sensor data"""
 
         self.pin_control.update_data()
-        self.forward_speed = self.pin_control.imu.get_forward_speed()
+        # no odometry im just dumb
+        # self.forward_speed = self.pin_control.imu.get_forward_speed()
 
     def update_motors(self) -> None:
         """Send a packet to update all motors"""
@@ -65,6 +66,10 @@ class UserSub:
         `timeout` seconds, it will stop and return False, otherwise True.
         Updates motors every `interval` seconds, default 0.01 (= 10 ms)
         """
+        return False
+        # we dont have odometry , this wont work
+        # disable motors, wait for acceleration ~= 0 bc slow down
+        # aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
         speed_pid = PID(self.Fp, self.Fi, self.Fd, 0)
 
         start = time.time()

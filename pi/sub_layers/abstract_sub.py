@@ -22,10 +22,12 @@ class AUV:
 
         # not using that currently; right now, the rotation will just be turn in theta degrees
         self.heading: float = 0
+        self.wanted_heading = wanted_angle
+        self.heading_diff = 0
         # TODO better rotation; rotate to vector?
 
         self.depth_pid: PID = PID(Dp, Di, Dd, wanted_depth)
-        self.heading_pid: DifferentialPID = DifferentialPID(PID(Rp, Ri, Rd, wanted_angle), motor_min)
+        self.heading_pid: DifferentialPID = DifferentialPID(PID(Rp, Ri, Rd, 0), motor_min)
     
     def set_depth(self, depth: float) -> None:
         """Sets the current depth of the sub, should be set by IMU."""
@@ -35,14 +37,19 @@ class AUV:
         """Sets the heading of the sub in degrees, should be set by IMU"""
         self.heading = heading
 
+    def set_heading_diff(self, heading_diff: float) -> None:
+        """Sets the difference of the sub's heading from where it is to where it should be, corrected"""
+        self.heading_diff = heading_diff
+
     def set_wanted_depth(self, depth: float) -> None:
         """Sets the WANTED depth of the sub, will reset depth PID"""
         self.depth_pid = PID(self.depth_pid.Kp, self.depth_pid.Ki, self.depth_pid.Kd, depth)
 
     def set_wanted_heading(self, heading: float) -> None:
         """Sets the WANTED heading of the sub, will reset heading PID"""
+        self.wanted_heading = heading
         rot = self.heading_pid.pid
-        self.heading_pid = DifferentialPID(PID(rot.Kp, rot.Ki, rot.Kd, heading), rot.min)
+        self.heading_pid = DifferentialPID(PID(rot.Kp, rot.Ki, rot.Kd, 0), rot.min)
 
     def set_wanted_speed(self, speed: float) -> None:
         """Sets the WANTED forward speed of the sub"""
@@ -60,7 +67,7 @@ class AUV:
         vertical_motors: List[float] = [self.depth_pid.signal(self.depth)] * 4
         horizontal_motors: List[float] = [self.wanted_speed] * 4
         
-        heading_motors = self.heading_pid.signal(self.depth)  # get heading pid speed (x, y)
+        heading_motors = self.heading_pid.signal(self.heading_diff)  # get heading pid speed (x, y)
 
         for i in range(4):
             horizontal_motors[i] += heading_motors[i % 2]
