@@ -20,7 +20,8 @@ if __name__ == '__main__':
             ),
             motor_port='COM12',  # example port
             depth_bus=1,  # I2C bus
-            imu_port='/dev/ttyACM0'  # another port
+            imu_port='/dev/ttyACM0',  # another port
+            imu_baud=921600
         ),
         Fp=0.5,
         Fi=0.0,
